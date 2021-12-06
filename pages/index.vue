@@ -36,7 +36,16 @@ export default {
   },
   computed: {
     posts() {
-      return this.$store.state.posts.all;
+      const context = this
+      this.posts
+        .getAllPost()
+        .then((response) => {
+          context.post = response.data.results
+        })
+        .catch((err) => {
+          console.error(err)
+          alert('An error happened while calling the API: ' + err)
+        })
     }
   }
 };

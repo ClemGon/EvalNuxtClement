@@ -19,6 +19,20 @@
 
 <script>
 export default {
+  methods: {
+    getPostById(id) {
+      const context = this
+      posts
+        .getPostById(id)
+        .then((response) => {
+          context.post = response.data.results
+        })
+        .catch((err) => {
+          console.error(err)
+          alert('An error happened while calling the API: ' + err)
+        })
+    },
+  },
   data() {
     return {
       id: this.$route.params.id
@@ -29,10 +43,10 @@ export default {
       return this.$store.state.posts.all.find(post => post.id === this.id);
     },
     relatedPosts() {
-      return this.$store.state.posts.all.filter(post => post.id !== this.id);
+      return this.getPostById(this.id);
     }
-  }
-};
+  },
+}
 </script>
 
 <style scoped>
